@@ -4,6 +4,7 @@ import asteroids.Ship;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,8 +14,10 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
     private Ship playerOne;
     private Ship playerTwo;
     private Image playerOneImage;
+    @FXML
     private ImageView playerOneImageView;
     private Image playerTwoImage;
+    @FXML
     private ImageView playerTwoImageView;
     private AsteroidsGateway gateway;
     
@@ -35,7 +38,8 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
     }
     
     public void setPlayerOneImage(){
-        playerOneImage = new Image(new File(playerOne.getImageFileName()).toURI().toString());
-        playerOneImageView.setImage(playerOneImage);
+        //playerOneImage = new Image(new File(playerOne.getImageFileName()).toURI().toString());
+        //playerOneImageView.setImage(playerOneImage);
+        System.out.println(playerOne.getImageFileName());
     }
 }
