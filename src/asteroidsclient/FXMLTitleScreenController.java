@@ -31,15 +31,18 @@ public class FXMLTitleScreenController implements Initializable, asteroids.Aster
             Parent root = (Parent) loader.load();
 
             FXMLGameScreenController controller = (FXMLGameScreenController) loader.getController();
-            controller.setplayerOne(gateway.getShip("test"));
+            controller.setPlayerOne(gateway.getShip(SHIP_1));
+            controller.setPlayerOneImage();
             
             Scene scene = new Scene(root);
             Stage stage = new Stage();
 
             stage.setScene(scene);
             stage.setResizable(false);
-            stage.setTitle("Chat Room Manager");
+            stage.setTitle("Game Screen");
             stage.show();
+            Stage oldStage = (Stage) startButton.getScene().getWindow();
+            oldStage.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

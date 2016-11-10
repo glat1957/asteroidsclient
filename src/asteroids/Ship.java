@@ -7,12 +7,11 @@ public class Ship implements Serializable{
 
     private int lives;
     private String imageFileName;
-    //private Image imageFile;
     private int playerNum;
 
     public Ship(int playerNum, int lives, String imageFileName) {
         this.lives = lives;
-        //this.imageFile = new Image(imageFileName);
+        this.imageFileName = imageFileName;
         this.playerNum = playerNum;
     }
 
@@ -20,8 +19,12 @@ public class Ship implements Serializable{
         return lives;
     }
 
-    //public Image getImage() {
-    //    return imageFile;
-    //}
+    public int getPlayerNum(){
+        return playerNum;
+    }
+    
+    public String getImageFileName(){
+        return imageFileName;
+    }
 
 }
