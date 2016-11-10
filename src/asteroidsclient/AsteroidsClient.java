@@ -11,7 +11,7 @@ public class AsteroidsClient extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLTitleScreen.fxml"));
         
         Scene scene = new Scene(root);
         
