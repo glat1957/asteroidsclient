@@ -1,4 +1,4 @@
-package asteroids;
+package asteroidsclient;
 
 public class Ship {
 

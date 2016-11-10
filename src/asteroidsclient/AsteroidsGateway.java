@@ -37,7 +37,7 @@ public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializa
     }
     
     public void getShip(){
-        outputToServer.println(GET_SHIP);
+        outputToServer.println(SET_SHIP);
         
     }
 }
