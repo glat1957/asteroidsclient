@@ -2,9 +2,11 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="asteroidsclient.FXMLGameScreenController">
    <children>
-      <ImageView fx:id="playerOneImageView" fitHeight="400.0" fitWidth="600.0" layoutX="-5.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" />
+      <Rectangle fx:id="temp" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="70.0" layoutX="269.0" layoutY="165.0" onKeyPressed="#rotateShip" stroke="BLACK" strokeType="INSIDE" width="70.0" />
+      <ImageView fx:id="playerOneImageView" fitHeight="114.0" fitWidth="198.0" layoutX="350.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

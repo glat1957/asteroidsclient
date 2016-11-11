@@ -40,7 +40,9 @@ public class FXMLTitleScreenController implements Initializable, asteroids.Aster
             stage.setScene(scene);
             stage.setResizable(false);
             stage.setTitle("Game Screen");
+            scene.setOnKeyPressed((evt)->controller.rotateShip(evt));
             stage.show();
+            
             Stage oldStage = (Stage) startButton.getScene().getWindow();
             oldStage.close();
         } catch (Exception ex) {
