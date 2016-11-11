@@ -8,58 +8,67 @@ import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
-import javafx.scene.input.KeyCode;    
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Rectangle;
 
 public class FXMLGameScreenController implements Initializable, asteroids.AsteroidsConstants {
 
-    private Ship playerOne;
-    private Ship playerTwo;
+    private Ship currentPlayer;
+    private Ship otherPlayer;
 
     @FXML
-    private ImageView playerOneImageView;
-    private Image playerOneImage;
-    private double playerOneRotation = 0;
+    private ImageView playerImageView;
+    private Image playerImage;
+    private double playerRotation = 0;
+    @FXML
+    private Rectangle currentPlayerShip;
 
     @FXML
-    private ImageView playerTwoImageView;
-    private Image playerTwoImage;
+    private Rectangle otherPlayerShip;
+    
     private AsteroidsGateway gateway;
-    @FXML
-    private Rectangle temp;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        
+    public void initialize(URL url, ResourceBundle rb) { 
+    }
+    
+    public void setGateway(AsteroidsGateway gateway){
+        this.gateway = gateway;
     }
 
-    public void setPlayerOne(Ship playerOne) {
-        this.playerOne = playerOne;
-        System.out.println(playerOne.getLives());
+    public void setCurrentPlayer(Ship currentPlayer) {
+        this.currentPlayer = currentPlayer;
+        System.out.println(currentPlayer.getLives());
     }
 
-    public void setPlayerTwo(Ship playerTwo) {
-        this.playerTwo = playerTwo;
+    public void setOtherPlayer(Ship otherPlayer) {
+        this.otherPlayer = otherPlayer;
     }
-
-    public void setPlayerOneImage() {
-        //playerOneImageView = new ImageView(getClass().getClassLoader().getResource("resources/Spaceship1.png").toString());
-
-        /*try {
-            System.out.println(getClass().getClassLoader().getResource("resources/Spaceship1.png").toString());
-            playerOneImage = new Image(getClass().getClassLoader().getResource("resources/Spaceship1.png").toString());
-            playerOneImageView.setImage(playerOneImage);
-            playerOneImageView.setFitWidth(0);
-            playerOneImageView.setFitHeight(0);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-         */
+    
+    public Double setPlayerRotation(Double rotation){
+        playerRotation += rotation;
+        if(playerRotation > 360)
+            playerRotation -= 360;
+        else if(playerRotation < 0)
+            playerRotation = 360 + playerRotation;
+        return playerRotation;
     }
 
     @FXML
-    public void rotateShip(KeyEvent keyEvent) {
-        System.out.println("Key");
+    public void rotatePlayer(KeyEvent keyEvent) {
+        switch (keyEvent.getCode()) {
+            case LEFT: {
+                setPlayerRotation(-5.0);
+                currentPlayerShip.setRotate(playerRotation);
+                break;
+            }
+            case RIGHT: {
+                setPlayerRotation(5.0);
+                currentPlayerShip.setRotate(playerRotation);
+                break;
+            }
+        }
     }
-    
+
 }

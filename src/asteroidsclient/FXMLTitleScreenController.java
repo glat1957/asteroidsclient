@@ -19,8 +19,12 @@ public class FXMLTitleScreenController implements Initializable, asteroids.Aster
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //startButton.setDisable(true);
         new Thread(() -> {
             gateway = new AsteroidsGateway();
+            
+            
+            
         }).start();
     }
 
@@ -31,8 +35,9 @@ public class FXMLTitleScreenController implements Initializable, asteroids.Aster
             Parent root = (Parent) loader.load();
 
             FXMLGameScreenController controller = (FXMLGameScreenController) loader.getController();
-            controller.setPlayerOne(gateway.getShip(SHIP_1));
-            controller.setPlayerOneImage();
+            controller.setCurrentPlayer(gateway.getShip(SHIP_1));
+            controller.setGateway(gateway);
+            System.out.println(gateway.getPlayerNum());
             
             Scene scene = new Scene(root);
             Stage stage = new Stage();
@@ -40,7 +45,7 @@ public class FXMLTitleScreenController implements Initializable, asteroids.Aster
             stage.setScene(scene);
             stage.setResizable(false);
             stage.setTitle("Game Screen");
-            scene.setOnKeyPressed((evt)->controller.rotateShip(evt));
+            scene.setOnKeyPressed((evt) -> controller.rotatePlayer(evt));
             stage.show();
             
             Stage oldStage = (Stage) startButton.getScene().getWindow();

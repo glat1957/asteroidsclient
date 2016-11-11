@@ -49,4 +49,17 @@ public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializa
         }
         return temp;
     }
+
+    public int getPlayerNum() {
+        int playerNum = 0;
+        outputToServer.println(GET_PLAYERNUM);
+        outputToServer.flush();
+        
+        try{
+            playerNum = Integer.parseInt(inputFromServer.readLine());
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return playerNum;
+    }
 }
