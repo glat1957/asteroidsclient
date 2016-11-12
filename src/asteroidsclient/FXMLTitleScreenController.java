@@ -22,9 +22,7 @@ public class FXMLTitleScreenController implements Initializable, asteroids.Aster
         //startButton.setDisable(true);
         new Thread(() -> {
             gateway = new AsteroidsGateway();
-            
-            
-            
+
         }).start();
     }
 
@@ -35,10 +33,9 @@ public class FXMLTitleScreenController implements Initializable, asteroids.Aster
             Parent root = (Parent) loader.load();
 
             FXMLGameScreenController controller = (FXMLGameScreenController) loader.getController();
-            controller.setCurrentPlayer(gateway.getShip(SHIP_1));
+            controller.setCurrentPlayer(gateway.getShipModel(SHIP_1));
             controller.setGateway(gateway);
-            System.out.println(gateway.getPlayerNum());
-            
+
             Scene scene = new Scene(root);
             Stage stage = new Stage();
 
@@ -46,13 +43,19 @@ public class FXMLTitleScreenController implements Initializable, asteroids.Aster
             stage.setResizable(false);
             stage.setTitle("Game Screen");
             scene.setOnKeyPressed((evt) -> controller.rotatePlayer(evt));
+            
+            new Thread(new UpdateOtherPlayer(controller.getPlayerNum(), gateway, controller.getPlayer1Ship(), controller.getPlayer2Ship())).start();
+           
+            // Show game.
             stage.show();
             
+            stage.setOnCloseRequest(closeEvent ->System.exit(0));
+
+            // Close start scene.
             Stage oldStage = (Stage) startButton.getScene().getWindow();
             oldStage.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-
 }

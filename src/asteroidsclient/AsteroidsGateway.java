@@ -1,6 +1,6 @@
 package asteroidsclient;
 
-import asteroids.Ship;
+import asteroids.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -37,13 +37,13 @@ public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializa
         }
     }
 
-    public Ship getShip(String shipName) {
-        Ship temp = null;
-        outputToServer.println(GET_SHIP);
+    public ShipModel getShipModel(String shipName) {
+        ShipModel temp = null;
+        outputToServer.println(GET_SHIP_MODEL);
         outputToServer.println(shipName);
         outputToServer.flush();
         try {
-            temp = (Ship) inputObjectFromServer.readObject();
+            temp = (ShipModel) inputObjectFromServer.readObject();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -52,14 +52,49 @@ public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializa
 
     public int getPlayerNum() {
         int playerNum = 0;
-        outputToServer.println(GET_PLAYERNUM);
+        outputToServer.println(GET_PLAYER_NUM);
         outputToServer.flush();
-        
-        try{
+        try {
             playerNum = Integer.parseInt(inputFromServer.readLine());
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return playerNum;
+    }
+
+    public void sendPlayer1Rot(Double player1Rot) {
+        outputToServer.println(SEND_PLAYER1_ROT);
+        outputToServer.println(player1Rot);
+        outputToServer.flush();
+    }
+
+    public double getPlayer1Rot() {
+        outputToServer.println(GET_PLAYER1_ROT);
+        outputToServer.flush();
+
+        try {
+            return Double.parseDouble(inputFromServer.readLine());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return 0.0;
+    }
+
+    public void sendPlayer2Rot(Double player2Rot) {
+        outputToServer.println(SEND_PLAYER2_ROT);
+        outputToServer.println(player2Rot);
+        outputToServer.flush();
+    }
+
+    public double getPlayer2Rot() {
+        outputToServer.println(GET_PLAYER2_ROT);
+        outputToServer.flush();
+
+        try {
+            return Double.parseDouble(inputFromServer.readLine());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return 0.0;
     }
 }

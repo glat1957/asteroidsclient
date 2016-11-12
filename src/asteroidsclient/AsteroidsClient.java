@@ -16,6 +16,7 @@ public class AsteroidsClient extends Application {
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
+        stage.setOnCloseRequest(event->System.exit(0));
         stage.show();
     }
 

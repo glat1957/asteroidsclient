@@ -1,23 +1,28 @@
 package asteroids;
 
 import java.io.Serializable;
-import javafx.scene.image.Image;
-import javafx.scene.shape.Rectangle;
 
-public class Ship implements Serializable{
+public class ShipModel implements Serializable{
 
     private int lives;
     private String imageFileName;
     private int playerNum;
-    //private Rectangle shipShape;
-
-    public Ship(int playerNum, int lives, String imageFileName) {
+    private double rotation = 0; 
+    
+    public ShipModel(int playerNum, int lives, String imageFileName) {
         this.lives = lives;
         this.imageFileName = imageFileName;
         this.playerNum = playerNum;
-        //shipShape = new Rectangle(70, 70);
+    }
+    
+    public void setRotation(double rotation){
+        this.rotation = rotation;
     }
 
+    public double getRotation(){
+        return rotation;
+    }
+    
     public int getLives() {
         return lives;
     }
@@ -25,11 +30,7 @@ public class Ship implements Serializable{
     public int getPlayerNum(){
         return playerNum;
     }
-    
-    //public Rectangle getShipShape(){
-    //    return shipShape;
-    //}
-    
+
     public String getImageFileName(){
         return imageFileName;
     }
