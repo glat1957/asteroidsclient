@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane id="AnchorPane" prefHeight="360.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="asteroidsclient.FXMLGameScreenController">
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="asteroidsclient.FXMLGameScreenController">
    <children>
-      <Rectangle fx:id="Player1Ship" arcHeight="5.0" arcWidth="5.0" fill="#3471ff" height="50.0" layoutX="240.0" layoutY="155.0" onKeyPressed="#rotatePlayer" stroke="BLACK" strokeType="INSIDE" width="50.0" />
-      <Rectangle fx:id="Player2Ship" arcHeight="5.0" arcWidth="5.0" fill="#ff4242" height="50.0" layoutX="350.0" layoutY="155.0" onKeyPressed="#rotatePlayer" stroke="BLACK" strokeType="INSIDE" width="50.0" />
+      <ImageView fx:id="playerImageView" fitHeight="500.0" fitWidth="700.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/gamebackground.png" />
+         </image></ImageView>
+      <Rectangle fx:id="Player1Ship" arcHeight="5.0" arcWidth="5.0" fill="#3471ff" height="50.0" layoutX="270.0" layoutY="225.0" onKeyPressed="#rotatePlayer" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="50.0" />
+      <Rectangle fx:id="Player2Ship" arcHeight="5.0" arcWidth="5.0" fill="#ff4242" height="50.0" layoutX="380.0" layoutY="225.0" onKeyPressed="#rotatePlayer" stroke="#f28686" strokeType="INSIDE" strokeWidth="0.0" width="50.0" />
    </children>
 </AnchorPane>

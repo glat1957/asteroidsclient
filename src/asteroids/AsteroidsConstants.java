@@ -7,6 +7,7 @@ public interface AsteroidsConstants {
     public static int SEND_PLAYER2_ROT = 4;
     public static int GET_PLAYER1_ROT = 5;
     public static int GET_PLAYER2_ROT = 6;
+    public static int NUM_CONNECTED = 7;
     
     public static String SHIP_1 = "Spaceship1.png";
 }
