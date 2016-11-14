@@ -26,11 +26,10 @@ public class FXMLTitleScreenController implements Initializable, asteroids.Aster
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        //status.setText("Waiting for other player...");
-        status.setText("PRESS START TO BEGIN...");
+        startButton.setDisable(true);
+        status.setText("Waiting for other player...");
 
-        //startButton.setDisable(true);
-
+        startButton.setDisable(true);
         FadeTransition ft = new FadeTransition(Duration.millis(2000), status);
         ft.setFromValue(1.0);
         ft.setToValue(0);
@@ -41,19 +40,16 @@ public class FXMLTitleScreenController implements Initializable, asteroids.Aster
         new Thread(() -> {
             gateway = new AsteroidsGateway();
 
-           
-                /*while (gateway.getNumConnected() == 2) {
-                    status.setText("Press start to begin...");
-                    startButton.setDisable(false);
-                }*/
+            while (gateway.getNumConnected() < 2) {
+                status.setText("WAITING FOR OTHER PLAYER...");
+            }
 
-               
+            status.setText("PRESS START TO BEGIN...");
+            startButton.setDisable(false);
 
-           
         }).start();
-
     }
-
+    
     @FXML
     public void startGame(ActionEvent event) {
         try {
@@ -77,7 +73,11 @@ public class FXMLTitleScreenController implements Initializable, asteroids.Aster
             // Show game.
             stage.show();
 
-            stage.setOnCloseRequest(closeEvent -> System.exit(0));
+            // Close all application processes upon exit.
+            stage.setOnCloseRequest(closeEvent -> {
+                gateway.disconnectPlayer();
+                System.exit(0);
+                    });
 
             // Close start scene.
             Stage oldStage = (Stage) startButton.getScene().getWindow();

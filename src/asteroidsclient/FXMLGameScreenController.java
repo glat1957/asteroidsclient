@@ -1,7 +1,6 @@
 package asteroidsclient;
 
 import asteroids.*;
-import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.locks.Lock;
@@ -19,14 +18,14 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
     private ShipModel currentPlayer;
 
     @FXML
-    private ImageView playerImageView;
+    private ImageView BackgroundImageView;
     private Image playerImage;
     private double playerRotation = 0;
 
     @FXML
-    private Rectangle Player1Ship;
+    private ImageView Player1Ship;
     @FXML
-    private Rectangle Player2Ship;
+    private ImageView Player2Ship;
 
     private AsteroidsGateway gateway;
 
@@ -46,11 +45,11 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
         return currentPlayer.getPlayerNum();
     }
     
-    public Rectangle getPlayer1Ship(){
+    public ImageView getPlayer1Ship(){
         return Player1Ship;
     }
     
-    public Rectangle getPlayer2Ship(){
+    public ImageView getPlayer2Ship(){
         return Player2Ship;
     }
 
@@ -97,10 +96,10 @@ class UpdateOtherPlayer implements Runnable, asteroids.AsteroidsConstants {
     private final Lock lock = new ReentrantLock();
     private final int playerNum;
     private final AsteroidsGateway gateway;
-    private final Rectangle player1Ship;
-    private final Rectangle player2Ship;
+    private final ImageView player1Ship;
+    private final ImageView player2Ship;
 
-    public UpdateOtherPlayer(int playerNum, AsteroidsGateway gateway, Rectangle player1Ship, Rectangle player2Ship) {
+    public UpdateOtherPlayer(int playerNum, AsteroidsGateway gateway, ImageView player1Ship, ImageView player2Ship) {
         this.playerNum = playerNum;
         this.gateway = gateway;
         this.player1Ship = player1Ship;

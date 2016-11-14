@@ -18,9 +18,9 @@
          <font>
             <Font name="Geneva" size="17.0" />
          </font></Button>
-      <Text fx:id="status" fill="WHITE" layoutX="225.0" layoutY="342.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="249.21875">
+      <Text fx:id="status" fill="WHITE" layoutX="148.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="403.21875">
          <font>
-            <Font name="Geneva" size="20.0" />
+            <Font name="Geneva" size="16.0" />
          </font></Text>
    </children>
 </AnchorPane>
