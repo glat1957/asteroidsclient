@@ -26,10 +26,10 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
 
     @FXML
     private ImageView player1Ship;
-    private Point player1Loc = new Point(player1Ship.getX(), player1Ship.getY());
+    private Point player1Loc = new Point(270, 218);
     @FXML
     private ImageView player2Ship;
-    private Point player2Loc = new Point(player2Ship.getX(), player2Ship.getY());
+    private Point player2Loc = new Point(380, 218);
 
     private AsteroidsGateway gateway;
 
@@ -100,7 +100,7 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
                 break;
             }
             case SPACE: {
-                bulletsInScene.add(new Bullet(getPlayerLoc().x, getPlayerLoc().y, 1, 1, 1));
+//                bulletsInScene.add(new Bullet(getPlayerLoc().x, getPlayerLoc().y, 1, 1, 1));
             }
         }
     }

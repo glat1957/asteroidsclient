@@ -10,12 +10,12 @@
          <image>
             <Image url="@../resources/hs-2012-37.png" />
          </image></ImageView>
-      <ImageView fx:id="Player1Ship" fitHeight="70.0" fitWidth="50.0" layoutX="270.0" layoutY="218.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="player1Ship" fitHeight="70.0" fitWidth="50.0" layoutX="270.0" layoutY="218.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../resources/Spaceship1.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="Player2Ship" fitHeight="70.0" fitWidth="50.0" layoutX="380.0" layoutY="218.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="player2Ship" fitHeight="70.0" fitWidth="50.0" layoutX="380.0" layoutY="218.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../resources/Spaceship1.png" />
          </image>
