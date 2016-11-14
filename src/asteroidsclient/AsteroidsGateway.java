@@ -97,21 +97,114 @@ public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializa
         }
         return 0.0;
     }
-    
-    public int getNumConnected(){
+
+    public int getNumConnected() {
         outputToServer.println(NUM_CONNECTED);
         outputToServer.flush();
-        
-        try{
+
+        try {
             return Integer.parseInt(inputFromServer.readLine());
-        } catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return 0;
     }
-    
-    public void disconnectPlayer(){
+
+    public void disconnectPlayer() {
         outputToServer.println(DISCONNECT_PLAYER);
         outputToServer.flush();
     }
+
+    public Asteroid getAsteroid() {
+        outputToServer.println(GET_PLAYER1_BULLET);
+        outputToServer.flush();
+
+        try {
+            double x = Double.parseDouble(inputFromServer.readLine());
+            double y = Double.parseDouble(inputFromServer.readLine());
+            int radius = Integer.parseInt(inputFromServer.readLine());
+            int dx = Integer.parseInt(inputFromServer.readLine());
+            int dy = Integer.parseInt(inputFromServer.readLine());
+
+            Asteroid temp = new Asteroid(x, y, radius, dx, dy);
+            return temp;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    public void sendAsteroid(int x, int y, int radius, int dx, int dy) {
+        outputToServer.println(SEND_ASTEROID);
+        outputToServer.println(x);
+        outputToServer.println(y);
+        outputToServer.println(radius);
+        outputToServer.println(dx);
+        outputToServer.println(dy);
+        outputToServer.flush();
+    }
+
+    public Bullet getPlayer1Bullet() {
+        outputToServer.println(GET_PLAYER1_BULLET);
+        outputToServer.flush();
+
+        try {
+            double x = Double.parseDouble(inputFromServer.readLine());
+            double y = Double.parseDouble(inputFromServer.readLine());
+            int radius = Integer.parseInt(inputFromServer.readLine());
+            int dx = Integer.parseInt(inputFromServer.readLine());
+            int dy = Integer.parseInt(inputFromServer.readLine());
+
+            Bullet temp = new Bullet(x, y, radius, dx, dy);
+            return temp;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+
+    }
+
+    public void sendPlayer1Bullet(int x, int y, int radius, int dx, int dy) {
+        outputToServer.println(SEND_PLAYER1_BULLET);
+        outputToServer.println(x);
+        outputToServer.println(y);
+        outputToServer.println(radius);
+        outputToServer.println(dx);
+        outputToServer.println(dy);
+        outputToServer.flush();
+    }
+
+    public Bullet getPlayer2Bullet() {
+        outputToServer.println(GET_PLAYER2_BULLET);
+        outputToServer.flush();
+
+        try {
+            double x = Double.parseDouble(inputFromServer.readLine());
+            double y = Double.parseDouble(inputFromServer.readLine());
+            int radius = Integer.parseInt(inputFromServer.readLine());
+            int dx = Integer.parseInt(inputFromServer.readLine());
+            int dy = Integer.parseInt(inputFromServer.readLine());
+
+            Bullet temp = new Bullet(x, y, radius, dx, dy);
+            return temp;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+
+    }
+
+    public void sendPlayer2Bullet(int x, int y, int radius, int dx, int dy) {
+        outputToServer.println(SEND_PLAYER2_BULLET);
+        outputToServer.println(x);
+        outputToServer.println(y);
+        outputToServer.println(radius);
+        outputToServer.println(dx);
+        outputToServer.println(dy);
+        outputToServer.flush();
+    }
+
 }
