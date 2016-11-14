@@ -9,7 +9,7 @@ public class Asteroid {
     private int asteroidRadius;
     private Ray directionRay;
 
-    public void Asteroid(double x, double y, int radius, int dX, int dY) {
+    public Asteroid(double x, double y, int radius, int dX, int dY) {
         this.asteroidRadius = radius;
 
         Vector velocity = new Vector(dX, dY);
