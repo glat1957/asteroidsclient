@@ -97,4 +97,21 @@ public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializa
         }
         return 0.0;
     }
+    
+    public int getNumConnected(){
+        outputToServer.println(NUM_CONNECTED);
+        outputToServer.flush();
+        
+        try{
+            return Integer.parseInt(inputFromServer.readLine());
+        } catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return 0;
+    }
+    
+    public void disconnectPlayer(){
+        outputToServer.println(DISCONNECT_PLAYER);
+        outputToServer.flush();
+    }
 }
