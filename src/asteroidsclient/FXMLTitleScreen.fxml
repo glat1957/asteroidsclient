@@ -16,11 +16,11 @@
       </ImageView>
       <Button fx:id="startButton" contentDisplay="CENTER" layoutX="307.0" layoutY="373.0" mnemonicParsing="false" onAction="#startGame" prefHeight="25.0" prefWidth="85.0" text="START" textAlignment="CENTER">
          <font>
-            <Font name="Geneva" size="17.0" />
+            <Font name="Impact" size="20.0" />
          </font></Button>
       <Text fx:id="status" fill="WHITE" layoutX="148.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="403.21875">
          <font>
-            <Font name="Geneva" size="16.0" />
+            <Font name="Impact" size="16.0" />
          </font></Text>
    </children>
 </AnchorPane>
