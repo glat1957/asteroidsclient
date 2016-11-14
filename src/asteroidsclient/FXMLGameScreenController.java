@@ -2,6 +2,7 @@ package asteroidsclient;
 
 import asteroids.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -11,21 +12,24 @@ import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.shape.Rectangle;
+import physics.Point;
 
 public class FXMLGameScreenController implements Initializable, asteroids.AsteroidsConstants {
 
     private ShipModel currentPlayer;
-
+    private ArrayList<Bullet> bulletsInScene = new ArrayList<>();
+    
     @FXML
     private ImageView BackgroundImageView;
     private Image playerImage;
     private double playerRotation = 0;
 
     @FXML
-    private ImageView Player1Ship;
+    private ImageView player1Ship;
+    private Point player1Loc = new Point(player1Ship.getX(), player1Ship.getY());
     @FXML
-    private ImageView Player2Ship;
+    private ImageView player2Ship;
+    private Point player2Loc = new Point(player2Ship.getX(), player2Ship.getY());
 
     private AsteroidsGateway gateway;
 
@@ -45,12 +49,21 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
         return currentPlayer.getPlayerNum();
     }
     
+    private Point getPlayerLoc(){
+        if(currentPlayer.getPlayerNum() == 1){
+            return player1Loc;
+        }
+        else{
+            return player2Loc;
+        }
+    }
+    
     public ImageView getPlayer1Ship(){
-        return Player1Ship;
+        return player1Ship;
     }
     
     public ImageView getPlayer2Ship(){
-        return Player2Ship;
+        return player2Ship;
     }
 
     private Double setPlayerRotation(Double rotation) {
@@ -65,16 +78,16 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
 
     private void rotateCurrentPlayer(Double rotation) {
         if (currentPlayer.getPlayerNum() == 1) {
-            Player1Ship.setRotate(rotation);
+            player1Ship.setRotate(rotation);
             gateway.sendPlayer1Rot(playerRotation);
         } else {
-            Player2Ship.setRotate(rotation);
+            player2Ship.setRotate(rotation);
             gateway.sendPlayer2Rot(playerRotation);
         }
     }
 
     @FXML
-    public void rotatePlayer(KeyEvent keyEvent) {
+    public void keyEvent(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case LEFT: {
                 setPlayerRotation(-5.0);
@@ -86,11 +99,14 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
                 rotateCurrentPlayer(playerRotation);
                 break;
             }
+            case SPACE: {
+                bulletsInScene.add(new Bullet(getPlayerLoc().x, getPlayerLoc().y, 1, 1, 1));
+            }
         }
     }
 }
 
-// Thread to update other player's rotation every few milliseconds.
+// Thread to update players' screens every few milliseconds.
 class UpdateOtherPlayer implements Runnable, asteroids.AsteroidsConstants {
 
     private final Lock lock = new ReentrantLock();
