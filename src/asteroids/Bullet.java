@@ -4,11 +4,11 @@ import physics.*;
 
 public class Bullet {
 
-    private Point bulletCenter;
-    private int bulletRadius;
+    private Point bulletCenter = new Point(0, 0);
+    private double bulletRadius;
     private Ray r;
 
-    public Bullet(double startX, double startY, int radius, int dX, int dY) {
+    public Bullet(double startX, double startY, double radius, int dX, int dY) {
         this.bulletCenter.x = startX;
         this.bulletCenter.y = startY;
         this.bulletRadius = radius;

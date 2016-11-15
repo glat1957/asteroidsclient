@@ -4,7 +4,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="asteroidsclient.FXMLGameScreenController">
+<AnchorPane id="AnchorPane" fx:id="mainPane" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="asteroidsclient.FXMLGameScreenController">
    <children>
       <ImageView fx:id="BackgroundImageView" fitHeight="500.0" fitWidth="700.0" pickOnBounds="true" preserveRatio="true">
          <image>
