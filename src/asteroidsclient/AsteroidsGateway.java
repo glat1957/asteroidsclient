@@ -116,23 +116,16 @@ public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializa
     }
 
     public Asteroid getAsteroid() {
-        outputToServer.println(GET_PLAYER1_BULLET);
+        Asteroid temp = null;
+        outputToServer.println(GET_ASTEROID);
+        //outputToServer.println(asteroidName);
         outputToServer.flush();
-
         try {
-            double x = Double.parseDouble(inputFromServer.readLine());
-            double y = Double.parseDouble(inputFromServer.readLine());
-            int radius = Integer.parseInt(inputFromServer.readLine());
-            int dx = Integer.parseInt(inputFromServer.readLine());
-            int dy = Integer.parseInt(inputFromServer.readLine());
-
-            Asteroid temp = new Asteroid(x, y, radius, dx, dy);
-            return temp;
-
+            temp = (Asteroid) inputObjectFromServer.readObject();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return null;
+        return temp;
     }
 
     public void sendAsteroid(int x, int y, int radius, int dx, int dy) {
@@ -146,23 +139,16 @@ public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializa
     }
 
     public Bullet getPlayer1Bullet() {
+        Bullet temp = null;
         outputToServer.println(GET_PLAYER1_BULLET);
+        //outputToServer.println(bulletName);
         outputToServer.flush();
-
         try {
-            double x = Double.parseDouble(inputFromServer.readLine());
-            double y = Double.parseDouble(inputFromServer.readLine());
-            int radius = Integer.parseInt(inputFromServer.readLine());
-            int dx = Integer.parseInt(inputFromServer.readLine());
-            int dy = Integer.parseInt(inputFromServer.readLine());
-
-            Bullet temp = new Bullet(x, y, radius, dx, dy);
-            return temp;
-
+            temp = (Bullet) inputObjectFromServer.readObject();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return null;
+        return temp;
 
     }
 
@@ -177,23 +163,16 @@ public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializa
     }
 
     public Bullet getPlayer2Bullet() {
+        Bullet temp = null;
         outputToServer.println(GET_PLAYER2_BULLET);
+        //outputToServer.println(bulletName);
         outputToServer.flush();
-
         try {
-            double x = Double.parseDouble(inputFromServer.readLine());
-            double y = Double.parseDouble(inputFromServer.readLine());
-            int radius = Integer.parseInt(inputFromServer.readLine());
-            int dx = Integer.parseInt(inputFromServer.readLine());
-            int dy = Integer.parseInt(inputFromServer.readLine());
-
-            Bullet temp = new Bullet(x, y, radius, dx, dy);
-            return temp;
-
+            temp = (Bullet) inputObjectFromServer.readObject();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return null;
+        return temp;
 
     }
 

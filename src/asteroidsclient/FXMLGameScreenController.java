@@ -18,6 +18,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import physics.Point;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
 
 public class FXMLGameScreenController implements Initializable, asteroids.AsteroidsConstants {
 
@@ -150,3 +155,21 @@ class UpdateOtherPlayer implements Runnable, asteroids.AsteroidsConstants {
         }
     }
 }
+
+class GenerateAsteroid implements Runnable, asteroids.AsteroidsConstants {
+    private final Lock lock = new ReentrantLock();
+    private final AsteroidsGateway gateway;
+    
+    
+    public GenerateAsteroid(AsteroidsGateway gateway){
+        this.gateway = gateway;
+    }
+    
+    @Override
+    public void run(){
+        while (true){
+           //Platform.runLater(() -> Asteroid.generateAsteroid());     
+        }
+    }
+}
+
