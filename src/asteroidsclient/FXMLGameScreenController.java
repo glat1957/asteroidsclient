@@ -151,21 +151,3 @@ class UpdateOtherPlayer implements Runnable, asteroids.AsteroidsConstants {
         }
     }
 }
-
-/*class GenerateAsteroid implements Runnable, asteroids.AsteroidsConstants {
-    private final Lock lock = new ReentrantLock();
-    private final AsteroidsGateway gateway;
-    
-    
-    public GenerateAsteroid(AsteroidsGateway gateway){
-        this.gateway = gateway;
-    }
-    
-    @Override
-    public void run(){
-        while (true){
-           //Platform.runLater(() -> Asteroid.generateAsteroid());     
-        }
-    }
-}
-*/
