@@ -3,6 +3,8 @@ package asteroidsclient;
 import asteroids.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -12,6 +14,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import physics.Point;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,10 +25,12 @@ import java.util.List;
 
 
 public class FXMLGameScreenController implements Initializable, asteroids.AsteroidsConstants {
-    
+
+    @FXML
+    private AnchorPane mainPane;
     private ShipModel currentPlayer;
-    private ArrayList<Bullet> bulletsInScene = new ArrayList<>();
-    List<Asteroid> asteroidsInScene = Collections.synchronizedList(new ArrayList<Asteroid>());
+    private List<Bullet> bulletsInScene = Collections.synchronizedList(new ArrayList<>());
+    private ArrayList<Circle> bulletShapes = new ArrayList<>();
     
     @FXML
     private ImageView BackgroundImageView;
@@ -32,10 +39,10 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
 
     @FXML
     private ImageView player1Ship;
-    private Point player1Loc = new Point(270, 218);
+    private Point player1Loc = new Point(295, 253);
     @FXML
     private ImageView player2Ship;
-    private Point player2Loc = new Point(380, 218);
+    private Point player2Loc = new Point(405, 253);
 
     private AsteroidsGateway gateway;
 
@@ -59,7 +66,7 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
         if(currentPlayer.getPlayerNum() == 1){
             return player1Loc;
         }
-        else{
+        else {
             return player2Loc;
         }
     }
@@ -96,17 +103,19 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
     public void keyEvent(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case LEFT: {
-                setPlayerRotation(-5.0);
+                setPlayerRotation(-1.0);
                 rotateCurrentPlayer(playerRotation);
                 break;
             }
             case RIGHT: {
-                setPlayerRotation(5.0);
+                setPlayerRotation(1.0);
                 rotateCurrentPlayer(playerRotation);
                 break;
             }
             case SPACE: {
-//                bulletsInScene.add(new Bullet(getPlayerLoc().x, getPlayerLoc().y, 1, 1, 1));
+                 bulletsInScene.add(new Bullet(getPlayerLoc().x, getPlayerLoc().y, 1, 1, 1));
+                 bulletShapes.add(new Circle(getPlayerLoc().x, getPlayerLoc().y, 10, Color.RED));
+                 mainPane.getChildren().add(bulletShapes.get(bulletShapes.size() - 1));
             }
         }
     }
@@ -140,7 +149,7 @@ class UpdateOtherPlayer implements Runnable, asteroids.AsteroidsConstants {
             }
 
             try {
-                Thread.sleep(50);
+                Thread.sleep(10);
             } catch (InterruptedException ex) {
             }
         }
