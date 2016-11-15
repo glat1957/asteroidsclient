@@ -24,8 +24,7 @@ public class Asteroid {
         Vector velocity = new Vector(dX, dY);
         double speed = velocity.length();
         directionRay = new Ray(new Point(x, y), velocity, speed);
-        
-        
+
     }
 
     public boolean isHit(Point bulletCenter, int bulletRadius) {
@@ -55,6 +54,5 @@ public class Asteroid {
     public void setRay(Ray ray) {
         this.directionRay = ray;
     }
-
 
 }
