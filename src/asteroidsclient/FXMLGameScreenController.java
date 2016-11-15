@@ -13,11 +13,19 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import physics.Point;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+
 
 public class FXMLGameScreenController implements Initializable, asteroids.AsteroidsConstants {
-
+    
+    Random random = new Random();
     private ShipModel currentPlayer;
     private ArrayList<Bullet> bulletsInScene = new ArrayList<>();
+    List<Asteroid> asteroidsInScene = Collections.synchronizedList(new ArrayList<Asteroid>());
     
     @FXML
     private ImageView BackgroundImageView;
@@ -85,7 +93,16 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
             gateway.sendPlayer2Rot(playerRotation);
         }
     }
-
+    private void addAsteroidToScene(){
+        
+        int x = random.nextInt(20)+1;
+        int y = random.nextInt(20)+1;
+        int radius = 15;
+        int dx = random.nextInt(20)+1;
+        int dy = random.nextInt(20)+1;
+        Asteroid temp = new Asteroid(x,y,radius,dx,dy);
+        asteroidsInScene.add(temp);
+    }
     @FXML
     public void keyEvent(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
@@ -140,3 +157,10 @@ class UpdateOtherPlayer implements Runnable, asteroids.AsteroidsConstants {
         }
     }
 }
+
+/*class GenerateAsteroid implements Runnable, asteroids.AsteroidsConstants {
+    while (true){
+       Platform.runLater(() -> addAsteroidToScene());     
+    }
+}
+*/
