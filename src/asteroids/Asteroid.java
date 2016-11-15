@@ -12,12 +12,20 @@ public class Asteroid {
     private Ray directionRay;
     Asteroid temp = null;
 
-    public Asteroid(double x, double y, int radius, int dX, int dY) {
+    public Asteroid() {
+        int x = random.nextInt(20) + 1;
+        int y = random.nextInt(20) + 1;
+        int radius = 15;
+        int dX = random.nextInt(20) + 1;
+        int dY = random.nextInt(20) + 1;
+
         this.asteroidRadius = radius;
 
         Vector velocity = new Vector(dX, dY);
         double speed = velocity.length();
         directionRay = new Ray(new Point(x, y), velocity, speed);
+        
+        
     }
 
     public boolean isHit(Point bulletCenter, int bulletRadius) {
@@ -48,16 +56,5 @@ public class Asteroid {
         this.directionRay = ray;
     }
 
-    public Asteroid generateAsteroid() {
-
-        int x = random.nextInt(20) + 1;
-        int y = random.nextInt(20) + 1;
-        int radius = 15;
-        int dx = random.nextInt(20) + 1;
-        int dy = random.nextInt(20) + 1;
-        temp = new Asteroid(x, y, radius, dx, dy);
-        return temp;
-
-    }
 
 }
