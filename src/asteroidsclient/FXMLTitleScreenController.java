@@ -68,7 +68,8 @@ public class FXMLTitleScreenController implements Initializable, asteroids.Aster
             stage.setTitle("Game Screen");
             scene.setOnKeyPressed((evt) -> controller.keyEvent(evt));
 
-            new Thread(new UpdateOtherPlayer(controller.getPlayerNum(), gateway, controller.getPlayer1Ship(), controller.getPlayer2Ship())).start();
+            new Thread(new UpdateOtherPlayer(controller.getPlayerNum(), gateway, 
+                    controller.getPlayer1Pane(), controller.getPlayer2Pane())).start();
 
             // Show game.
             stage.show();
