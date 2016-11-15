@@ -1,13 +1,16 @@
 package asteroids;
 
 import physics.*;
+import java.util.Random;
 
 public class Asteroid {
 
+    Random random = new Random();
     private int dX;
     private int dY;
     private int asteroidRadius;
     private Ray directionRay;
+    Asteroid temp = null;
 
     public Asteroid(double x, double y, int radius, int dX, int dY) {
         this.asteroidRadius = radius;
@@ -32,7 +35,7 @@ public class Asteroid {
             return true;
         }
     }
-    
+
     public void move(double time) {
         directionRay = new Ray(directionRay.endPoint(time), directionRay.v, directionRay.speed);
     }
@@ -44,4 +47,17 @@ public class Asteroid {
     public void setRay(Ray ray) {
         this.directionRay = ray;
     }
+
+    public Asteroid generateAsteroid() {
+
+        int x = random.nextInt(20) + 1;
+        int y = random.nextInt(20) + 1;
+        int radius = 15;
+        int dx = random.nextInt(20) + 1;
+        int dy = random.nextInt(20) + 1;
+        temp = new Asteroid(x, y, radius, dx, dy);
+        return temp;
+
+    }
+
 }
