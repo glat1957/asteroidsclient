@@ -2,9 +2,6 @@ package asteroidsclient;
 
 import asteroids.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -20,7 +17,6 @@ import javafx.scene.shape.Circle;
 import physics.Point;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -156,7 +152,7 @@ class UpdateOtherPlayer implements Runnable, asteroids.AsteroidsConstants {
     }
 }
 
-class GenerateAsteroid implements Runnable, asteroids.AsteroidsConstants {
+/*class GenerateAsteroid implements Runnable, asteroids.AsteroidsConstants {
     private final Lock lock = new ReentrantLock();
     private final AsteroidsGateway gateway;
     
@@ -172,4 +168,4 @@ class GenerateAsteroid implements Runnable, asteroids.AsteroidsConstants {
         }
     }
 }
-
+*/
