@@ -9,6 +9,9 @@ import java.net.Socket;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializable {
 
@@ -115,27 +118,16 @@ public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializa
         outputToServer.flush();
     }
 
-    public Asteroid getAsteroid() {
-        Asteroid temp = null;
+    public List getAsteroid() {
+        List tempAstr = null;
         outputToServer.println(GET_ASTEROID);
-        //outputToServer.println(asteroidName);
         outputToServer.flush();
         try {
-            temp = (Asteroid) inputObjectFromServer.readObject();
+            tempAstr = (List) inputObjectFromServer.readObject();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return temp;
-    }
-
-    public void sendAsteroid(int x, int y, int radius, int dx, int dy) {
-        outputToServer.println(SEND_ASTEROID);
-        outputToServer.println(x);
-        outputToServer.println(y);
-        outputToServer.println(radius);
-        outputToServer.println(dx);
-        outputToServer.println(dy);
-        outputToServer.flush();
+        return tempAstr;
     }
 
     public Bullet getPlayer1Bullet() {
