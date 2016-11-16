@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import physics.Point;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javafx.scene.layout.Pane;
 
@@ -137,6 +138,11 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
             }
         }
     }
+    
+    /*@FXML
+    public void showAsteroid(){
+        mainPane.getChildren().add(update.asteroidShapes.get(update.asteroidShapes.size() -1));
+}*/
 }
 
 // Thread to update players' screens every few milliseconds.
@@ -147,12 +153,16 @@ class UpdateOtherPlayer implements Runnable, asteroids.AsteroidsConstants {
     private final AsteroidsGateway gateway;
     private final Pane player1Pane;
     private final Pane player2Pane;
+    private List<Asteroid> asteroidsInScene = Collections.synchronizedList(new ArrayList<>());
+    public ArrayList<Circle> asteroidShapes = new ArrayList<>();
 
     public UpdateOtherPlayer(int playerNum, AsteroidsGateway gateway, Pane player1Pane, Pane player2Pane) {
         this.playerNum = playerNum;
         this.gateway = gateway;
         this.player1Pane = player1Pane;
         this.player2Pane = player2Pane;
+        
+        
     }
 
     @Override
@@ -163,6 +173,12 @@ class UpdateOtherPlayer implements Runnable, asteroids.AsteroidsConstants {
                 Platform.runLater(() -> player2Pane.setRotate(tempPlayer2Rot));
             } else {
                 double tempPlayer1Rot = gateway.getPlayer1Rot();
+                
+                asteroidsInScene = gateway.getAsteroid();
+                for(Asteroid a: asteroidsInScene){
+                   asteroidShapes.add(new Circle(a.returnX(), a.returnY(), a.returnRadius(), Color.BLUE)); 
+                }
+                
                 Platform.runLater(() -> player1Pane.setRotate(tempPlayer1Rot));
             }
             

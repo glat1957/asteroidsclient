@@ -6,6 +6,8 @@ import java.util.Random;
 public class Asteroid {
 
     Random random = new Random();
+    private int x;
+    private int y;
     private int dX;
     private int dY;
     private int asteroidRadius;
@@ -13,18 +15,15 @@ public class Asteroid {
     Asteroid temp = null;
 
     public Asteroid() {
-        int x = random.nextInt(20) + 1;
-        int y = random.nextInt(20) + 1;
-        int radius = 15;
-        int dX = random.nextInt(20) + 1;
-        int dY = random.nextInt(20) + 1;
-
-        this.asteroidRadius = radius;
+        x = random.nextInt(20) + 1;
+        y = random.nextInt(20) + 1;
+        asteroidRadius = 15;
+        dX = random.nextInt(20) + 1;
+        dY = random.nextInt(20) + 1;
 
         Vector velocity = new Vector(dX, dY);
         double speed = velocity.length();
         directionRay = new Ray(new Point(x, y), velocity, speed);
-
     }
 
     public boolean isHit(Point bulletCenter, int bulletRadius) {
@@ -53,6 +52,18 @@ public class Asteroid {
 
     public void setRay(Ray ray) {
         this.directionRay = ray;
+    }
+    
+    public int returnX(){
+        return x;
+    }
+    
+    public int returnY(){
+        return y;
+    }
+    
+    public int returnRadius(){
+        return asteroidRadius;
     }
 
 }
