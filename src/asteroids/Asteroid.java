@@ -15,8 +15,21 @@ public class Asteroid {
     Asteroid temp = null;
 
     public Asteroid() {
-        x = random.nextInt(700) + 1;
-        y = random.nextInt(500) + 1;
+        int candidateX = random.nextInt(550)+1;
+        int candidateY = random.nextInt(430)+1;
+        
+        if (candidateX>275 && candidateX<425){
+            x = candidateX+150;
+        }else{
+            x = candidateX;
+        }
+        
+        if (candidateY>220 && candidateY<280){
+            y = candidateY+60;
+        }else{
+            y = candidateY;
+        }
+        
         asteroidRadius = 20;
         dX = random.nextInt(20) - 10;
         dY = random.nextInt(20) - 10;
