@@ -29,7 +29,6 @@ public class FXMLTitleScreenController implements Initializable, asteroids.Aster
         startButton.setDisable(true);
         status.setText("Waiting for other player...");
 
-        startButton.setDisable(true);
         FadeTransition ft = new FadeTransition(Duration.millis(2000), status);
         ft.setFromValue(1.0);
         ft.setToValue(0);
@@ -59,6 +58,7 @@ public class FXMLTitleScreenController implements Initializable, asteroids.Aster
             FXMLGameScreenController controller = (FXMLGameScreenController) loader.getController();
             controller.setCurrentPlayer(gateway.getShipModel(SHIP_1));
             controller.setGateway(gateway);
+            controller.sim.setPane(controller.mainPane);
 
             Scene scene = new Scene(root);
             Stage stage = new Stage();
@@ -71,6 +71,8 @@ public class FXMLTitleScreenController implements Initializable, asteroids.Aster
             new Thread(new UpdateOtherPlayer(controller.getPlayerNum(), gateway, 
                     controller.getPlayer1Pane(), controller.getPlayer2Pane())).start();
 
+            new Thread(new Simulate(gateway, controller.sim, controller.bulletsInScene, controller.bulletShapes)).start();
+            
             // Show game.
             stage.show();
 

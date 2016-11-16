@@ -4,30 +4,27 @@ import physics.*;
 
 public class Bullet {
 
-    private Point bulletCenter = new Point(0, 0);
-    private double bulletRadius;
-    private Ray r;
+    private final double bulletRadius;
+    private Ray directionRay;
 
     public Bullet(double startX, double startY, double radius, double dX, double dY) {
-        this.bulletCenter.x = startX;
-        this.bulletCenter.y = startY;
         this.bulletRadius = radius;
 
         Vector v = new Vector(dX, dY);
-        double speed = v.length();
-        r = new Ray(new Point(startX, startY), v, speed);
+        double speed = 10;
+        directionRay = new Ray(new Point(startX, startY), v, speed);
     }
 
     public Ray getRay() {
-        return r;
+        return directionRay;
     }
 
     public void setRay(Ray r) {
-        this.r = r;
+        this.directionRay = r;
     }
 
     public void move(double time) {
-        r = new Ray(r.endPoint(time), r.v, r.speed);
+        directionRay = new Ray(directionRay.endPoint(time), directionRay.v, directionRay.speed);
     }
 
 }

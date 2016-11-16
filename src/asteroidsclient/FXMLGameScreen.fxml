@@ -19,7 +19,7 @@
                   <Image url="@../resources/Spaceship1.png" />
                </image>
             </ImageView>
-            <Circle fx:id="player1Nose" fill="DODGERBLUE" layoutX="25.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fx:id="player1Nose" fill="#1f93ff00" layoutX="25.0" radius="5.0" stroke="TRANSPARENT" strokeType="INSIDE" />
          </children>
       </Pane>
       <Pane fx:id="player2Pane" layoutX="370.0" layoutY="218.0" prefHeight="64.0" prefWidth="50.0">
@@ -29,7 +29,7 @@
                   <Image url="@../resources/Spaceship1.png" />
                </image>
             </ImageView>
-            <Circle fx:id="player2Nose" fill="DODGERBLUE" layoutX="25.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fx:id="player2Nose" fill="#1f93ff00" layoutX="25.0" radius="5.0" stroke="TRANSPARENT" strokeType="INSIDE" />
          </children>
       </Pane>
    </children>

@@ -31,8 +31,8 @@ public class Asteroid {
         // Since asteroids and bullets are going to be represented using circles,
         // we can use the origin point and radius of each and the distance formula
         // to determine if they overlap.
-        double distance = Math.pow((directionRay.getOrigin().x - bulletCenter.x) * (directionRay.getOrigin().x - bulletCenter.x)
-                + (directionRay.getOrigin().y - bulletCenter.y) * (directionRay.getOrigin().y - bulletCenter.y), 0.5);
+        double distance = Math.pow((directionRay.origin.x - bulletCenter.x) * (directionRay.origin.x - bulletCenter.x)
+                + (directionRay.origin.y - bulletCenter.y) * (directionRay.origin.y - bulletCenter.y), 0.5);
 
         if (distance < asteroidRadius + bulletRadius) {
             return true;

@@ -15,21 +15,23 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import physics.Point;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javafx.scene.layout.Pane;
 
 public class FXMLGameScreenController implements Initializable, asteroids.AsteroidsConstants {
 
+    private AsteroidsGateway gateway;
+    
     @FXML
-    private AnchorPane mainPane;
+    public AnchorPane mainPane;
     private ShipModel currentPlayer;
-    private List<Bullet> bulletsInScene = Collections.synchronizedList(new ArrayList<>());
-    private ArrayList<Circle> bulletShapes = new ArrayList<>();
+    public Simulation sim = new Simulation(gateway);
+    public List<Bullet> bulletsInScene = sim.getBullets();
+    public ArrayList<Circle> bulletShapes = sim.getBulletShapes();
 
     @FXML
     private ImageView BackgroundImageView;
-    private double playerRotation = 0;
+    private double playerRotation = 0.0;
 
     @FXML
     private ImageView player1Ship;
@@ -47,7 +49,7 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
     private Circle player2Nose;
     private Point player2Loc = new Point(395, 250);
 
-    private AsteroidsGateway gateway;
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -65,7 +67,7 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
         return currentPlayer.getPlayerNum();
     }
 
-    private Point getPlayerLoc() {
+    public Point getPlayerLoc() {
         if (currentPlayer.getPlayerNum() == 1) {
             return player1Loc;
         } else {
@@ -73,11 +75,13 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
         }
     }
 
-    private Point getPlayerNoseLoc() {
+    public Point getPlayerNoseLoc() {
         if (currentPlayer.getPlayerNum() == 1) {
-            return new Point(player1Nose.getCenterX(), player1Nose.getCenterY());
+            return new Point(player1Nose.localToScene(player1Nose.getLayoutX(), player1Nose.getLayoutX()).getX(),
+            player1Nose.localToScene(player1Nose.getLayoutX(), player1Nose.getLayoutX()).getY());
         } else {
-            return new Point(player2Nose.getCenterX(), player2Nose.getCenterY());
+            return new Point(player2Nose.localToScene(player2Nose.getLayoutX(), player2Nose.getLayoutX()).getX(),
+            player2Nose.localToScene(player2Nose.getLayoutX(), player2Nose.getLayoutX()).getY());
         }
     }
 
@@ -91,10 +95,10 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
 
     private Double setPlayerRotation(Double rotation) {
         playerRotation += rotation;
-        if (playerRotation > 360) {
-            playerRotation -= 360;
-        } else if (playerRotation < 0) {
-            playerRotation = 360 + playerRotation;
+        if (playerRotation > 360.0) {
+            playerRotation -= 360.0;
+        } else if (playerRotation < 0.0) {
+            playerRotation = 360.0 + playerRotation;
         }
         return playerRotation;
     }
@@ -113,12 +117,12 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
     public void keyEvent(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case LEFT: {
-                setPlayerRotation(-1.0);
+                setPlayerRotation(-5.0);
                 rotateCurrentPlayer(playerRotation);
                 break;
             }
             case RIGHT: {
-                setPlayerRotation(1.0);
+                setPlayerRotation(5.0);
                 rotateCurrentPlayer(playerRotation);
                 break;
             }
@@ -126,9 +130,10 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
                 // Use player location to set spawn point for bullet and use the nose
                 // location to set the velocity so that the bullet will be directed in the
                 // direction of the nose.
-                bulletsInScene.add(new Bullet(getPlayerLoc().x, getPlayerLoc().y, 10, getPlayerNoseLoc().x, getPlayerNoseLoc().y));
-                bulletShapes.add(new Circle(getPlayerLoc().x, getPlayerLoc().y, 10, Color.RED));
-                mainPane.getChildren().add(bulletShapes.get(bulletShapes.size() - 1));
+                sim.getBullets().add(new Bullet(getPlayerLoc().x, getPlayerLoc().y,
+                        10, 1, 1));
+                sim.getBulletShapes().add(new Circle(getPlayerLoc().x, getPlayerLoc().y, 5, Color.RED));
+                mainPane.getChildren().add(sim.getBulletShapes().get(sim.getBulletShapes().size() - 1));
             }
         }
     }
@@ -160,7 +165,7 @@ class UpdateOtherPlayer implements Runnable, asteroids.AsteroidsConstants {
                 double tempPlayer1Rot = gateway.getPlayer1Rot();
                 Platform.runLater(() -> player1Pane.setRotate(tempPlayer1Rot));
             }
-
+            
             try {
                 Thread.sleep(10);
             } catch (InterruptedException ex) {
@@ -169,20 +174,32 @@ class UpdateOtherPlayer implements Runnable, asteroids.AsteroidsConstants {
     }
 }
 
-/*class GenerateAsteroid implements Runnable, asteroids.AsteroidsConstants {
-    private final Lock lock = new ReentrantLock();
+class Simulate implements Runnable, asteroids.AsteroidsConstants {
+
     private final AsteroidsGateway gateway;
+    private final Simulation sim;
+    private List<Bullet> bulletsInScene;
+    private ArrayList<Circle> bulletShapes;
     
-    
-    public GenerateAsteroid(AsteroidsGateway gateway){
+    public Simulate(AsteroidsGateway gateway, Simulation sim, 
+            List<Bullet> bulletsInScene, ArrayList<Circle> bulletShapes) {
         this.gateway = gateway;
+        this.sim = sim;
+        this.bulletsInScene = bulletsInScene;
+        this.bulletShapes = bulletShapes;
     }
-    
+
     @Override
-    public void run(){
-        while (true){
-           //Platform.runLater(() -> Asteroid.generateAsteroid());     
+    public void run() {
+        while (true) {
+            
+            sim.evolve(1.0);
+            sim.updateShapes();
+            
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException ex) {
+            }
         }
     }
 }
- */

@@ -115,7 +115,7 @@ public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializa
         outputToServer.flush();
     }
 
-    public Asteroid getAsteroid() {
+    /*public Asteroid getAsteroid() {
         Asteroid temp = null;
         outputToServer.println(GET_ASTEROID);
         //outputToServer.println(asteroidName);
@@ -184,6 +184,6 @@ public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializa
         outputToServer.println(dx);
         outputToServer.println(dy);
         outputToServer.flush();
-    }
+    }*/
 
 }

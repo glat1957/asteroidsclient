@@ -32,10 +32,6 @@ public class Ray {
       if(Math.abs(v.dX) > Math.abs(v.dY))
           return (p.x - origin.x)/(v.dX*speed);
       return (p.y - origin.y)/(v.dY*speed);
-  }
-  
-  public Point getOrigin(){
-      return origin;
-  }
+  }  
 }
 
