@@ -15,33 +15,17 @@ public class Asteroid {
     Asteroid temp = null;
 
     public Asteroid() {
-        x = random.nextInt(20) + 1;
-        y = random.nextInt(20) + 1;
-        asteroidRadius = 15;
-        dX = random.nextInt(20) + 1;
-        dY = random.nextInt(20) + 1;
+        x = random.nextInt(700) + 1;
+        y = random.nextInt(500) + 1;
+        asteroidRadius = 20;
+        dX = random.nextInt(20) - 10;
+        dY = random.nextInt(20) - 10;
 
         Vector velocity = new Vector(dX, dY);
-        double speed = velocity.length();
+        double speed = 1;
         directionRay = new Ray(new Point(x, y), velocity, speed);
     }
-
-    public boolean isHit(Point bulletCenter, int bulletRadius) {
-        // Since asteroids and bullets are going to be represented using circles,
-        // we can use the origin point and radius of each and the distance formula
-        // to determine if they overlap.
-        double distance = Math.pow((directionRay.origin.x - bulletCenter.x) * (directionRay.origin.x - bulletCenter.x)
-                + (directionRay.origin.y - bulletCenter.y) * (directionRay.origin.y - bulletCenter.y), 0.5);
-
-        if (distance < asteroidRadius + bulletRadius) {
-            return true;
-        } else if (distance > asteroidRadius + bulletRadius) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
+    
     public void move(double time) {
         directionRay = new Ray(directionRay.endPoint(time), directionRay.v, directionRay.speed);
     }

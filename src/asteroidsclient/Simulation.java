@@ -16,8 +16,12 @@ public class Simulation {
     private AsteroidsGateway gateway;
     private List<Bullet> bulletsInScene = Collections.synchronizedList(new ArrayList<>());
     private ArrayList<Circle> bulletShapes = new ArrayList<>();
+    private List<Asteroid> asteroidsInScene = Collections.synchronizedList(new ArrayList<>());
+    private ArrayList<Circle> asteroidShapes = new ArrayList<>();
     @FXML
     private AnchorPane mainPane;
+    private boolean negativeOutOfBounds;
+    private boolean positiveOutOfBounds;
     
     public Simulation(AsteroidsGateway gateway)
     {
@@ -30,12 +34,30 @@ public class Simulation {
         lock.lock();
         for(int i = 0; i < bulletsInScene.size(); i++){
             bulletsInScene.get(i).move(time);
-            boolean negativeOutOfBounds = bulletsInScene.get(i).getRay().origin.x < 0 || bulletsInScene.get(i).getRay().origin.y < 0;
-            boolean positiveOutOfBounds = bulletsInScene.get(i).getRay().origin.x > mainPane.getWidth() || bulletsInScene.get(i).getRay().origin.y > mainPane.getHeight();
+            negativeOutOfBounds = bulletsInScene.get(i).getRay().origin.x < 0 || bulletsInScene.get(i).getRay().origin.y < 0;
+            positiveOutOfBounds = bulletsInScene.get(i).getRay().origin.x > mainPane.getWidth() || bulletsInScene.get(i).getRay().origin.y > mainPane.getHeight();
             if(positiveOutOfBounds || negativeOutOfBounds){
                removeBullet(i);
             }
         }
+        for(int j = 0; j < asteroidsInScene.size(); j++){
+            asteroidsInScene.get(j).move(time);
+            negativeOutOfBounds = asteroidsInScene.get(j).getRay().origin.x < 0 || asteroidsInScene.get(j).getRay().origin.y < 0;
+            positiveOutOfBounds = asteroidsInScene.get(j).getRay().origin.x > mainPane.getWidth() || asteroidsInScene.get(j).getRay().origin.y > mainPane.getHeight();
+            if(positiveOutOfBounds || negativeOutOfBounds){
+               removeBullet(j);
+            }
+        }
+        
+        for(int k = 0; k < bulletsInScene.size(); k++){
+            for(int m = 0; m < asteroidsInScene.size(); m++){
+                if(isHit(bulletsInScene.get(k), asteroidsInScene.get(m))){
+                    removeBullet(k);
+                    removeAsteroid(m);
+                }
+            }
+        }
+        
         lock.unlock();
     }
     
@@ -43,17 +65,30 @@ public class Simulation {
         return bulletsInScene;
     }
     
+    public List<Asteroid> getAsteroids(){
+        return asteroidsInScene;
+    }
+    
     public void setPane(AnchorPane pane){
         this.mainPane = pane;
     }
     
     private void removeBullet(int i){
-        bulletsInScene.remove(i);
         bulletShapes.remove(i);
+        bulletsInScene.remove(i);
+    }
+    
+    private void removeAsteroid(int i){ 
+        asteroidShapes.remove(i);
+        asteroidsInScene.remove(i);
     }
     
     public ArrayList<Circle> getBulletShapes(){
         return bulletShapes;
+    }
+    
+    public ArrayList<Circle> getAsteroidShapes(){
+        return asteroidShapes;
     }
     
     public void updateShapes()
@@ -61,6 +96,26 @@ public class Simulation {
         for(int i = 0; i < bulletsInScene.size(); i++){
             bulletShapes.get(i).setCenterX(bulletsInScene.get(i).getRay().origin.x);
             bulletShapes.get(i).setCenterY(bulletsInScene.get(i).getRay().origin.y);
+        }
+        for(int i = 0; i < asteroidsInScene.size(); i++){
+            asteroidShapes.get(i).setCenterX(asteroidsInScene.get(i).getRay().origin.x);
+            asteroidShapes.get(i).setCenterY(asteroidsInScene.get(i).getRay().origin.y);
+        }
+    }
+    
+    public boolean isHit(Bullet bullet, Asteroid asteroid) {
+        // Since asteroids and bullets are going to be represented using circles,
+        // we can use the origin point and radius of each and the distance formula
+        // to determine if they overlap.
+        double distance = Math.pow((bullet.getRay().origin.x - asteroid.getRay().origin.x) * (bullet.getRay().origin.x - asteroid.getRay().origin.x)
+                + (bullet.getRay().origin.y - asteroid.getRay().origin.y) * (bullet.getRay().origin.y - asteroid.getRay().origin.y), 0.5);
+
+        if (distance < bullet.getRadius() + asteroid.returnRadius()) {
+            return true;
+        } else if (distance > bullet.getRadius() + asteroid.returnRadius()) {
+            return false;
+        } else {
+            return true;
         }
     }
 }

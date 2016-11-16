@@ -141,7 +141,6 @@ public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializa
             ex.printStackTrace();
         }
         return temp;
-
     }
 
     public void sendPlayer1Bullet(int x, int y, int radius, int dx, int dy) {

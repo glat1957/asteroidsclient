@@ -26,5 +26,9 @@ public class Bullet {
     public void move(double time) {
         directionRay = new Ray(directionRay.endPoint(time), directionRay.v, directionRay.speed);
     }
+    
+    public double getRadius(){
+        return bulletRadius;
+    }
 
 }

@@ -71,7 +71,9 @@ public class FXMLTitleScreenController implements Initializable, asteroids.Aster
             new Thread(new UpdateOtherPlayer(controller.getPlayerNum(), gateway, 
                     controller.getPlayer1Pane(), controller.getPlayer2Pane())).start();
 
-            new Thread(new Simulate(gateway, controller.sim, controller.bulletsInScene, controller.bulletShapes)).start();
+            new Thread(new Simulate(gateway, controller.sim, controller.bulletsInScene, 
+                    controller.bulletShapes, controller.asteroidsInScene, controller.asteroidShapes
+            , controller.mainPane)).start();
             
             // Show game.
             stage.show();

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javafx.scene.layout.Pane;
+import java.lang.Math;
 
 public class FXMLGameScreenController implements Initializable, asteroids.AsteroidsConstants {
 
@@ -29,6 +30,8 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
     public Simulation sim = new Simulation(gateway);
     public List<Bullet> bulletsInScene = sim.getBullets();
     public ArrayList<Circle> bulletShapes = sim.getBulletShapes();
+    public List<Asteroid> asteroidsInScene = sim.getAsteroids();
+    public ArrayList<Circle> asteroidShapes = sim.getAsteroidShapes();
 
     @FXML
     private ImageView BackgroundImageView;
@@ -132,17 +135,20 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
                 // location to set the velocity so that the bullet will be directed in the
                 // direction of the nose.
                 sim.getBullets().add(new Bullet(getPlayerLoc().x, getPlayerLoc().y,
-                        10, 1, 1));
+                        10, Math.cos(Math.toRadians(playerRotation - 90)), Math.sin(Math.toRadians(playerRotation - 90))));
                 sim.getBulletShapes().add(new Circle(getPlayerLoc().x, getPlayerLoc().y, 5, Color.RED));
                 mainPane.getChildren().add(sim.getBulletShapes().get(sim.getBulletShapes().size() - 1));
+                break;
+            }
+            case A: {
+               sim.getAsteroids().add(new Asteroid());
+               sim.getAsteroidShapes().add(new Circle(sim.getAsteroids().get(sim.getAsteroids().size() - 1).returnX(),
+               sim.getAsteroids().get(sim.getAsteroids().size() - 1).returnY(), sim.getAsteroids().get(sim.getAsteroids().size() - 1).returnRadius(), Color.BLUE));
+               mainPane.getChildren().add(sim.getAsteroidShapes().get(sim.getAsteroidShapes().size() - 1));
+               break;
             }
         }
     }
-    
-    /*@FXML
-    public void showAsteroid(){
-        mainPane.getChildren().add(update.asteroidShapes.get(update.asteroidShapes.size() -1));
-}*/
 }
 
 // Thread to update players' screens every few milliseconds.
@@ -160,9 +166,7 @@ class UpdateOtherPlayer implements Runnable, asteroids.AsteroidsConstants {
         this.playerNum = playerNum;
         this.gateway = gateway;
         this.player1Pane = player1Pane;
-        this.player2Pane = player2Pane;
-        
-        
+        this.player2Pane = player2Pane;    
     }
 
     @Override
@@ -178,7 +182,6 @@ class UpdateOtherPlayer implements Runnable, asteroids.AsteroidsConstants {
                 for(Asteroid a: asteroidsInScene){
                    asteroidShapes.add(new Circle(a.returnX(), a.returnY(), a.returnRadius(), Color.BLUE)); 
                 }
-                
                 Platform.runLater(() -> player1Pane.setRotate(tempPlayer1Rot));
             }
             
@@ -196,13 +199,20 @@ class Simulate implements Runnable, asteroids.AsteroidsConstants {
     private final Simulation sim;
     private List<Bullet> bulletsInScene;
     private ArrayList<Circle> bulletShapes;
+    private List<Asteroid> asteroidsInScene;
+    private ArrayList<Circle> asteroidShapes;
+    private AnchorPane mainPane;
     
     public Simulate(AsteroidsGateway gateway, Simulation sim, 
-            List<Bullet> bulletsInScene, ArrayList<Circle> bulletShapes) {
+            List<Bullet> bulletsInScene, ArrayList<Circle> bulletShapes,
+            List<Asteroid> asteroidsInScene, ArrayList<Circle> asteroidShapes, AnchorPane mainPane) {
         this.gateway = gateway;
         this.sim = sim;
         this.bulletsInScene = bulletsInScene;
         this.bulletShapes = bulletShapes;
+        this.asteroidsInScene = asteroidsInScene;
+        this.asteroidShapes = asteroidShapes;
+        this.mainPane = mainPane;
     }
 
     @Override
