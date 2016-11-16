@@ -22,7 +22,7 @@ public class Asteroid {
         dY = random.nextInt(20) - 10;
 
         Vector velocity = new Vector(dX, dY);
-        double speed = 1;
+        double speed = 3;
         directionRay = new Ray(new Point(x, y), velocity, speed);
     }
     

@@ -22,5 +22,10 @@
          <font>
             <Font name="Impact" size="16.0" />
          </font></Text>
+      <Text fill="WHITE" layoutX="203.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ASTEROIDS" textAlignment="CENTER" wrappingWidth="292.21875">
+         <font>
+            <Font name="Impact" size="54.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

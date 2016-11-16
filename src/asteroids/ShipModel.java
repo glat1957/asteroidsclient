@@ -26,6 +26,10 @@ public class ShipModel implements Serializable{
     public int getLives() {
         return lives;
     }
+    
+    public void hit(){
+        lives--;
+    }
 
     public int getPlayerNum(){
         return playerNum;

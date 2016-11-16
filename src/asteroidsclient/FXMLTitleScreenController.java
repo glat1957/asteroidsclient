@@ -69,11 +69,18 @@ public class FXMLTitleScreenController implements Initializable, asteroids.Aster
             scene.setOnKeyPressed((evt) -> controller.keyEvent(evt));
 
             new Thread(new UpdateOtherPlayer(controller.getPlayerNum(), gateway, 
-                    controller.getPlayer1Pane(), controller.getPlayer2Pane())).start();
+                    controller.getPlayer1Pane(), controller.getPlayer2Pane(), controller.player1Lives,
+                    controller.player2Lives, controller.getCurrentPlayer())).start();
+            
+            new Thread(new GenerateAsteroids(controller.sim, controller.mainPane)).start();
 
             new Thread(new Simulate(gateway, controller.sim, controller.bulletsInScene, 
                     controller.bulletShapes, controller.asteroidsInScene, controller.asteroidShapes
-            , controller.mainPane)).start();
+            , controller.mainPane, controller.score, controller.scorecount, controller.getPlayer1Pane(),
+            controller.getPlayer2Pane(), controller.getPlayerNum(), controller.getCurrentPlayer(), controller.player1Lives
+            , controller.player2Lives)).start();
+            
+            
             
             // Show game.
             stage.show();
