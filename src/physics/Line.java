@@ -1,8 +1,8 @@
 package physics;
 
-import asteroids.*;
+import java.io.Serializable;
 
-public class Line {
+public class Line implements Serializable{
     Point a;
     Point b;
     

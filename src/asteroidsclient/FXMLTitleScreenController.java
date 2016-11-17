@@ -48,7 +48,7 @@ public class FXMLTitleScreenController implements Initializable, asteroids.Aster
 
         }).start();
     }
-    
+
     @FXML
     public void startGame(ActionEvent event) {
         try {
@@ -58,30 +58,21 @@ public class FXMLTitleScreenController implements Initializable, asteroids.Aster
             FXMLGameScreenController controller = (FXMLGameScreenController) loader.getController();
             controller.setCurrentPlayer(gateway.getShipModel(SHIP_1));
             controller.setGateway(gateway);
-            controller.sim.setPane(controller.mainPane);
+            controller.setScore();
 
             Scene scene = new Scene(root);
             Stage stage = new Stage();
 
             stage.setScene(scene);
             stage.setResizable(false);
-            stage.setTitle("Game Screen");
+            stage.setTitle("Game Screen: Player " + controller.getCurrentPlayer().getPlayerNum());
             scene.setOnKeyPressed((evt) -> controller.keyEvent(evt));
 
-            new Thread(new UpdateOtherPlayer(controller.getPlayerNum(), gateway, 
-                    controller.getPlayer1Pane(), controller.getPlayer2Pane(), controller.player1Lives,
-                    controller.player2Lives, controller.getCurrentPlayer())).start();
-            
-            new Thread(new GenerateAsteroids(controller.sim, controller.mainPane)).start();
+            new Thread(new UpdatePlayer(
+                    controller.getPlayerNum(), gateway, controller.getPlayer1Pane(),
+                    controller.getPlayer2Pane(), controller.player1Lives, controller.player2Lives,
+                    controller.getCurrentPlayer(), controller.score, controller.mainPane)).start();
 
-            new Thread(new Simulate(gateway, controller.sim, controller.bulletsInScene, 
-                    controller.bulletShapes, controller.asteroidsInScene, controller.asteroidShapes
-            , controller.mainPane, controller.score, controller.scorecount, controller.getPlayer1Pane(),
-            controller.getPlayer2Pane(), controller.getPlayerNum(), controller.getCurrentPlayer(), controller.player1Lives
-            , controller.player2Lives)).start();
-            
-            
-            
             // Show game.
             stage.show();
 
@@ -89,7 +80,7 @@ public class FXMLTitleScreenController implements Initializable, asteroids.Aster
             stage.setOnCloseRequest(closeEvent -> {
                 gateway.disconnectPlayer();
                 System.exit(0);
-                    });
+            });
 
             // Close start scene.
             Stage oldStage = (Stage) startButton.getScene().getWindow();

@@ -1,8 +1,8 @@
 package physics;
 
-import asteroids.*;
+import java.io.Serializable;
 
-public class Vector {
+public class Vector implements Serializable{
 
     public double dX;
     public double dY;

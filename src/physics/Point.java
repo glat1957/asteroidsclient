@@ -1,8 +1,8 @@
 package physics;
 
-import asteroids.*;
+import java.io.Serializable;
 
-public class Point {
+public class Point implements Serializable {
     public double x;
     public double y;
     

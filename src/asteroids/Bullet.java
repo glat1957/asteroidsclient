@@ -1,17 +1,18 @@
 package asteroids;
 
+import java.io.Serializable;
 import physics.*;
 
-public class Bullet {
+public class Bullet implements Serializable{
 
     private final double bulletRadius;
     private Ray directionRay;
 
-    public Bullet(double startX, double startY, double radius, double dX, double dY) {
+    public Bullet(double startX, double startY, double radius, int spe, double dX, double dY) {
         this.bulletRadius = radius;
 
         Vector v = new Vector(dX, dY);
-        double speed = 10;
+        double speed = spe;
         directionRay = new Ray(new Point(startX, startY), v, speed);
     }
 

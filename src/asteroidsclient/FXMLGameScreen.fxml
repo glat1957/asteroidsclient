@@ -4,13 +4,12 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane id="AnchorPane" fx:id="mainPane" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="asteroidsclient.FXMLGameScreenController">
    <children>
-      <ImageView fx:id="BackgroundImageView" fitHeight="500.0" fitWidth="700.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="500.0" fitWidth="700.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../resources/hs-2012-37.png" />
          </image></ImageView>
@@ -21,7 +20,6 @@
                   <Image url="@../resources/Spaceship1.png" />
                </image>
             </ImageView>
-            <Circle fx:id="player1Nose" fill="#1f93ff00" layoutX="25.0" radius="5.0" stroke="TRANSPARENT" strokeType="INSIDE" />
          </children>
       </Pane>
       <Pane fx:id="player2Pane" layoutX="370.0" layoutY="218.0" prefHeight="64.0" prefWidth="50.0">
@@ -31,7 +29,6 @@
                   <Image url="@../resources/Spaceship1.png" />
                </image>
             </ImageView>
-            <Circle fx:id="player2Nose" fill="#1f93ff00" layoutX="25.0" radius="5.0" stroke="TRANSPARENT" strokeType="INSIDE" />
          </children>
       </Pane>
       <Text fx:id="score" fill="WHITE" layoutX="25.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score: 0" wrappingWidth="76.21875">

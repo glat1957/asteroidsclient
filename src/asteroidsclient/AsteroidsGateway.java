@@ -12,6 +12,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializable {
 
@@ -19,6 +21,8 @@ public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializa
     private BufferedReader inputFromServer;
     private ObjectOutputStream outputObjectToServer;
     private ObjectInputStream inputObjectFromServer;
+
+    private final Lock lock = new ReentrantLock();
 
     AsteroidsGateway() {
         try {
@@ -40,7 +44,7 @@ public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializa
         }
     }
 
-    public ShipModel getShipModel(String shipName) {
+    public synchronized ShipModel getShipModel(String shipName) {
         ShipModel temp = null;
         outputToServer.println(GET_SHIP_MODEL);
         outputToServer.println(shipName);
@@ -53,7 +57,7 @@ public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializa
         return temp;
     }
 
-    public int getPlayerNum() {
+    public synchronized int getPlayerNum() {
         int playerNum = 0;
         outputToServer.println(GET_PLAYER_NUM);
         outputToServer.flush();
@@ -65,13 +69,13 @@ public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializa
         return playerNum;
     }
 
-    public void sendPlayer1Rot(Double player1Rot) {
-        outputToServer.println(SEND_PLAYER1_ROT);
+    public synchronized void sendPlayer1Rot(Double player1Rot) {
+        outputToServer.println(SET_PLAYER1_ROT);
         outputToServer.println(player1Rot);
         outputToServer.flush();
     }
 
-    public double getPlayer1Rot() {
+    public synchronized double getPlayer1Rot() {
         outputToServer.println(GET_PLAYER1_ROT);
         outputToServer.flush();
 
@@ -83,13 +87,13 @@ public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializa
         return 0.0;
     }
 
-    public void sendPlayer2Rot(Double player2Rot) {
-        outputToServer.println(SEND_PLAYER2_ROT);
+    public synchronized void sendPlayer2Rot(Double player2Rot) {
+        outputToServer.println(SET_PLAYER2_ROT);
         outputToServer.println(player2Rot);
         outputToServer.flush();
     }
 
-    public double getPlayer2Rot() {
+    public synchronized double getPlayer2Rot() {
         outputToServer.println(GET_PLAYER2_ROT);
         outputToServer.flush();
 
@@ -101,7 +105,7 @@ public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializa
         return 0.0;
     }
 
-    public int getNumConnected() {
+    public synchronized int getNumConnected() {
         outputToServer.println(NUM_CONNECTED);
         outputToServer.flush();
 
@@ -113,8 +117,87 @@ public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializa
         return 0;
     }
 
-    public void disconnectPlayer() {
+    public synchronized void disconnectPlayer() {
         outputToServer.println(DISCONNECT_PLAYER);
         outputToServer.flush();
+    }
+
+    public synchronized void incrementScore() {
+        outputToServer.println(INC_SCORE);
+        outputToServer.flush();
+    }
+
+    public synchronized int getScore() {
+        outputToServer.println(GET_SCORE);
+        outputToServer.flush();
+        try {
+            return Integer.parseInt(inputFromServer.readLine());
+        } catch (Exception ex) {
+        }
+        return -1;
+    }
+
+    public synchronized void setPlayer1Lives(int lives) {
+        try {
+            outputToServer.println(SET_PLAYER1_LIVES);
+            outputToServer.println(lives);
+            outputToServer.flush();
+        } catch (Exception ex) {
+        }
+    }
+
+    public synchronized void setPlayer2Lives(int lives) {
+        outputToServer.println(SET_PLAYER2_LIVES);
+        outputToServer.println(lives);
+        outputToServer.flush();
+
+    }
+
+    public synchronized int getPlayer1Lives() {
+        outputToServer.println(GET_PLAYER1_LIVES);
+        outputToServer.flush();
+        try {
+            return Integer.parseInt(inputFromServer.readLine());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return -1;
+    }
+
+    public synchronized int getPlayer2Lives() {
+        outputToServer.println(GET_PLAYER2_LIVES);
+        outputToServer.flush();
+        try {
+            return Integer.parseInt(inputFromServer.readLine());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return -1;
+    }
+
+    public synchronized void playerNewBullet(double x, double y, double rotation) {
+        outputToServer.println(PLAYER_NEW_BULLET);
+        outputToServer.println(x);
+        outputToServer.println(y);
+        outputToServer.println(rotation);
+        outputToServer.flush();
+    }
+
+    public synchronized List<Bullet> playerGetBullets() {
+        List<Bullet> temp = Collections.synchronizedList(new ArrayList<>());;
+        outputToServer.println(PLAYER_GET_BULLETS);
+        outputToServer.flush();
+
+        try {
+            //temp = (List<Bullet>) inputObjectFromServer.readObject();
+            int length = Integer.parseInt(inputFromServer.readLine());
+            for(int i = 0; i < length; i++){
+                temp.add((Bullet) inputObjectFromServer.readObject());
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        System.out.println("Got list of length: " + temp.size());
+        return temp;
     }
 }
