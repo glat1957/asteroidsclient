@@ -31,7 +31,7 @@
             </ImageView>
          </children>
       </Pane>
-      <Text fx:id="score" fill="WHITE" layoutX="25.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score: 0" wrappingWidth="76.21875">
+      <Text fx:id="score" fill="WHITE" layoutX="25.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score: 0" wrappingWidth="201.21875">
          <font>
             <Font size="17.0" />
          </font>

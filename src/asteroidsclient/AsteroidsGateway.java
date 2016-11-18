@@ -9,8 +9,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializable {
 
@@ -21,7 +19,7 @@ public class AsteroidsGateway implements asteroids.AsteroidsConstants, Serializa
     AsteroidsGateway() {
         try {
             // Create a server socket
-            Socket serverSocket = new Socket("localhost", 8080);
+            Socket serverSocket = new Socket("localhost", 8000);
 
             // Create an object output stream to send objects to server.
             outputObjectToServer = new ObjectOutputStream(serverSocket.getOutputStream());

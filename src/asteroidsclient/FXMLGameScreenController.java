@@ -17,7 +17,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import physics.Point;
 import java.util.List;
+import java.util.Optional;
 import javafx.scene.Group;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
@@ -169,6 +173,7 @@ class UpdatePlayer implements Runnable, asteroids.AsteroidsConstants {
     private Text score;
     private AnchorPane mainPane;
     private Group bulletGroup;
+    private int s;
 
     public UpdatePlayer(int playerNum, AsteroidsGateway gateway, Pane player1Pane, Pane player2Pane,
             Text player1Lives, Text player2Lives, ShipModel currentPlayer, Text score, AnchorPane mainPane) {
@@ -187,7 +192,7 @@ class UpdatePlayer implements Runnable, asteroids.AsteroidsConstants {
     public void run() {
         try {
             final ArrayList<Circle> previous = new ArrayList<>();
-            while (true) {
+            while (gateway.getPlayer1Lives() != 0 && gateway.getPlayer2Lives() != 0) {
                 if (playerNum == 1) {
                     double tempPlayer2Rot = gateway.getPlayer2Rot();
                     Platform.runLater(() -> player2Pane.setRotate(tempPlayer2Rot));
@@ -198,7 +203,7 @@ class UpdatePlayer implements Runnable, asteroids.AsteroidsConstants {
 
                 int l1 = gateway.getPlayer1Lives();
                 int l2 = gateway.getPlayer2Lives();
-                int s = gateway.getScore();
+                s = gateway.getScore();
                 Platform.runLater(() -> {
                     score.setText("Score: " + s);
                     player1Lives.setText("P1 Lives: " + l1);
@@ -237,6 +242,19 @@ class UpdatePlayer implements Runnable, asteroids.AsteroidsConstants {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
+        } finally {
+            Platform.runLater(() -> {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("Game Over!");
+                alert.setHeaderText(null);
+                alert.setContentText("The game is over! \n Score: " + s);
+                ButtonType exit = new ButtonType("Exit");
+                alert.getButtonTypes().setAll(exit);
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.get() == exit){
+                    System.exit(0);
+                }
+            });
         }
     }
 }
