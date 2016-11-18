@@ -1,5 +1,9 @@
 package physics;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 
@@ -14,6 +18,20 @@ public class Ray implements Serializable{
       this.v = v;
       this.v.normalize();
       this.speed = speed;
+  }
+  
+  public Ray(ObjectInputStream in) throws IOException{
+      origin = new Point(in.readDouble(), in.readDouble());
+      v = new Vector(in.readDouble(), in.readDouble());
+      speed = in.readDouble();
+  }
+  
+  public void writeTo(ObjectOutputStream out) throws IOException{
+      out.writeDouble(origin.x);
+      out.writeDouble(origin.y);
+      out.writeDouble(v.dX);
+      out.writeDouble(v.dY);
+      out.writeDouble(speed);
   }
 
   public Line toSegment(double time)

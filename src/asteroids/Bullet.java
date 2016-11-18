@@ -1,9 +1,12 @@
 package asteroids;
 
-import java.io.Serializable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import physics.*;
 
-public class Bullet implements Serializable{
+public class Bullet {
 
     private final double bulletRadius;
     private Ray directionRay;
@@ -14,6 +17,16 @@ public class Bullet implements Serializable{
         Vector v = new Vector(dX, dY);
         double speed = spe;
         directionRay = new Ray(new Point(startX, startY), v, speed);
+    }
+    
+    public Bullet(ObjectInputStream in) throws IOException{
+        bulletRadius = in.readDouble();
+        directionRay = new Ray(in);
+    }
+    
+    public void writeTo(ObjectOutputStream out) throws IOException{
+        out.writeDouble(bulletRadius);
+        directionRay.writeTo(out);
     }
 
     public Ray getRay() {

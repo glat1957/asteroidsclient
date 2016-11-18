@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import physics.Point;
 import java.util.List;
+import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
@@ -51,8 +52,36 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
     private Pane player2Pane;
     private Point player2Loc = new Point(395, 250);
 
+    private boolean pressL, pressR, pressS;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        new Thread(() -> {
+            try {
+                long lastShoot = 0;
+                while (true) {
+                    if (pressL && !pressR) {
+                        setPlayerRotation(-5.0);
+                        rotateCurrentPlayer(playerRotation);
+                    }
+                    if (!pressL && pressR) {
+                        setPlayerRotation(5.0);
+                        rotateCurrentPlayer(playerRotation);
+                    }
+                    if (pressS) {
+                        // Use player location to set spawn point for bullet and use the rotation
+                        // to set the velocity so that the bullet will be directed in the
+                        // direction of the nose.
+                        if (lastShoot + 30 < System.currentTimeMillis()) {
+                            gateway.playerNewBullet(getPlayerLoc().x, getPlayerLoc().y, playerRotation);
+                            lastShoot = System.currentTimeMillis();
+                        }
+                    }
+                    Thread.sleep(10);
+                }
+            } catch (Exception e) {
+            }
+        }).start();
     }
 
     public void setGateway(AsteroidsGateway gateway) {
@@ -112,26 +141,17 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
         }
     }
 
-    @FXML
-    public void keyEvent(KeyEvent keyEvent) {
+    public void keyEvent(boolean pressed, KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
-            case LEFT: {
-                setPlayerRotation(-5.0);
-                rotateCurrentPlayer(playerRotation);
+            case LEFT:
+                pressL = pressed;
                 break;
-            }
-            case RIGHT: {
-                setPlayerRotation(5.0);
-                rotateCurrentPlayer(playerRotation);
+            case RIGHT:
+                pressR = pressed;
                 break;
-            }
-            case SPACE: {
-                // Use player location to set spawn point for bullet and use the rotation
-                // to set the velocity so that the bullet will be directed in the
-                // direction of the nose.
-                gateway.playerNewBullet(getPlayerLoc().x, getPlayerLoc().y, playerRotation);
+            case SPACE:
+                pressS = pressed;
                 break;
-            }
         }
     }
 }
@@ -139,7 +159,6 @@ public class FXMLGameScreenController implements Initializable, asteroids.Astero
 // Thread to update players' screens every few milliseconds.
 class UpdatePlayer implements Runnable, asteroids.AsteroidsConstants {
 
-    private final Lock lock = new ReentrantLock();
     private final int playerNum;
     private final AsteroidsGateway gateway;
     private final Pane player1Pane;
@@ -149,6 +168,7 @@ class UpdatePlayer implements Runnable, asteroids.AsteroidsConstants {
     private final ShipModel currentPlayer;
     private Text score;
     private AnchorPane mainPane;
+    private Group bulletGroup;
 
     public UpdatePlayer(int playerNum, AsteroidsGateway gateway, Pane player1Pane, Pane player2Pane,
             Text player1Lives, Text player2Lives, ShipModel currentPlayer, Text score, AnchorPane mainPane) {
@@ -166,8 +186,8 @@ class UpdatePlayer implements Runnable, asteroids.AsteroidsConstants {
     @Override
     public void run() {
         try {
+            final ArrayList<Circle> previous = new ArrayList<>();
             while (true) {
-                lock.lock();
                 if (playerNum == 1) {
                     double tempPlayer2Rot = gateway.getPlayer2Rot();
                     Platform.runLater(() -> player2Pane.setRotate(tempPlayer2Rot));
@@ -176,34 +196,47 @@ class UpdatePlayer implements Runnable, asteroids.AsteroidsConstants {
                     Platform.runLater(() -> player1Pane.setRotate(tempPlayer1Rot));
                 }
 
+                int l1 = gateway.getPlayer1Lives();
+                int l2 = gateway.getPlayer2Lives();
+                int s = gateway.getScore();
                 Platform.runLater(() -> {
-                    score.setText("Score: " + gateway.getScore());
-                    player1Lives.setText("P1 Lives: " + gateway.getPlayer1Lives());
-                    player2Lives.setText("P2 Lives: " + gateway.getPlayer2Lives());
+                    score.setText("Score: " + s);
+                    player1Lives.setText("P1 Lives: " + l1);
+                    player2Lives.setText("P2 Lives: " + l2);
                 });
 
-                List<Bullet> temp = gateway.playerGetBullets();
-                
-                List<Circle> playerBulletShapes = Collections.synchronizedList(new ArrayList<>());
+                // Clear old shapes and execute update.
+                List<Bullet> tempBullets = gateway.playerGetBullets();
+                List<Asteroid> tempAsteroids = gateway.playerGetAsteroid();
 
-                for(Bullet b: temp){
-                    playerBulletShapes.add(new Circle(b.getRay().origin.x, b.getRay().origin.y, b.getRadius(), Color.RED));
+                List<Circle> playerShapes = new ArrayList<>();
+
+                synchronized (previous) {
+                    for (Bullet b : tempBullets) {
+                        playerShapes.add(new Circle(b.getRay().origin.x, b.getRay().origin.y, b.getRadius(), Color.RED));
+                    }
+                    for (Asteroid a : tempAsteroids) {
+                        playerShapes.add(new Circle(a.returnX(), a.returnY(), a.returnRadius(), Color.GREY));
+                    }
+
+                    Platform.runLater(() -> {
+                        synchronized (previous) {
+                            mainPane.getChildren().removeAll(previous);
+                            mainPane.getChildren().addAll(playerShapes);
+                            previous.clear();
+                            previous.addAll(playerShapes);
+                            previous.notify();
+                        }
+                    });
+                    previous.wait();
                 }
-                
-                System.out.println("Bullet objects: " + temp.size());
-                System.out.println("Bullet shapes: " + playerBulletShapes.size());
-                
-                //Platform.runLater(() -> mainPane.getChildren().addAll(playerBulletShapes));
-                
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(25);
                 } catch (InterruptedException ex) {
                 }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-        } finally {
-            lock.unlock();
         }
     }
 }

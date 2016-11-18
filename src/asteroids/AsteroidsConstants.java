@@ -18,6 +18,7 @@ public interface AsteroidsConstants {
     public static int GET_PLAYER2_LIVES = 14;
     public static int PLAYER_NEW_BULLET = 15;
     public static int PLAYER_GET_BULLETS = 16;
+    public static int PLAYER_GET_ASTEROIDS = 17;
 
     public static String SHIP_1 = "Spaceship1.png";
 }
